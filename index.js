@@ -3,18 +3,24 @@ import dotenv from "dotenv";
 import connectDB from "./db/mongoose.js";
 import notFound from "./middlewares/not-found.js";
 import errorHandler from "./middlewares/error-handler.js";
-
-dotenv.config();
-
-// connect to db
-await connectDB();
+import authRoutes from "./routes/authRoutes.js";
+import jobRoutes from "./routes/jobsRoutes.js";
 
 const app = express();
 
+dotenv.config();
+// connect to db
+await connectDB();
+
+app.use(express.json());
+
 app.get("/", (req, res) => {
-  throw new Error("error");
   res.send("Welcome");
 });
+
+// Routes
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/jobs", jobRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
