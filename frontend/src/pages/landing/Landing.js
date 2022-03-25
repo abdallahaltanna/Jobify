@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import logo from '../../assets/images/logo.svg'
 import MainLanding from '../../assets/images/main-alternative.svg'
-import styles from './Landing.module.css'
+import './Landing.css'
 
 const Landing = () => {
   return (
@@ -9,7 +9,7 @@ const Landing = () => {
       <nav>
         <img src={logo} alt='logo' />
       </nav>
-      <div className={`${styles.page} container`}>
+      <div className='page container'>
         <div>
           <h1>
             job <span>tracking</span> app
@@ -24,7 +24,7 @@ const Landing = () => {
             login / register
           </Link>
         </div>
-        <img src={MainLanding} alt='' className={`${styles.main_img} img`} />
+        <img src={MainLanding} alt='' className='img main_img' />
       </div>
     </>
   )

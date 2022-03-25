@@ -31,7 +31,7 @@ p {
   cursor: pointer;
   letter-spacing: var(--letterSpacing);
 }
-.form-input_pass {
+.form-input {
   padding: 3px 10px;
   display: flex;
   align-items: center;
