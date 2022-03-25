@@ -1,0 +1,33 @@
+{
+  "name": "jobify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "server": "nodemon index.js --prefix --ignore frontend",
+    "client": "npm start --prefix frontend",
+    "start": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abdallahaltanna/Jobify.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abdallahaltanna/Jobify/issues"
+  },
+  "homepage": "https://github.com/abdallahaltanna/Jobify#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.8"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
