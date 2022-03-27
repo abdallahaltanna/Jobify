@@ -5,6 +5,7 @@ import {
   LOGIN_USER_PENDING,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAILED,
+  LOGOUT_USER,
 } from "../constants/authConstants";
 
 const user = localStorage.getItem("user");
@@ -17,6 +18,7 @@ export const authUser = (
     user: user ? JSON.parse(user) : null,
     token: token,
     userLocation: location || "",
+    jobLocation: location || "",
   },
   { type, payload }
 ) => {
@@ -30,6 +32,7 @@ export const authUser = (
         user: payload.user,
         token: payload.token,
         userLocation: payload.location,
+        jobLocation: payload.location,
       };
     case REGISTER_USER_FAILED:
       return {
@@ -45,11 +48,20 @@ export const authUser = (
         user: payload.user,
         token: payload.token,
         userLocation: payload.location,
+        jobLocation: payload.location,
       };
     case LOGIN_USER_FAILED:
       return {
         ...state,
         isLoading: false,
+      };
+    case LOGOUT_USER:
+      return {
+        ...state,
+        user: null,
+        token: null,
+        userLocation: "",
+        jobLocation: "",
       };
     default:
       return state;

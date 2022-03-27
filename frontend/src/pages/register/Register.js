@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import logo from "../../assets/images/logo.svg";
 import { FormRow, Alert } from "../../components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { showAlert as displayAlert } from "../../actions/ui-actions";
 import { register, login } from "../../actions/auth-actions";
@@ -19,7 +17,7 @@ const initialState = {
 const Register = () => {
   const [values, setValues] = useState(initialState);
   const [showPassword, setShowPassword] = useState(false);
-  const { showAlert } = useSelector((state) => state.alert);
+  const { showAlert } = useSelector((state) => state.ui);
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -43,7 +41,7 @@ const Register = () => {
   useEffect(() => {
     if (user) {
       setTimeout(() => {
-        navigate("/dashboard");
+        navigate("/");
       }, 3000);
     }
   }, [user, navigate]);
@@ -96,9 +94,9 @@ const Register = () => {
                 className="toggle_password"
               >
                 {showPassword ? (
-                  <FontAwesomeIcon icon={faEye} />
+                  <i className="fa-solid fa-eye"></i>
                 ) : (
-                  <FontAwesomeIcon icon={faEyeSlash} />
+                  <i className="fa-solid fa-eye-slash"></i>
                 )}
               </button>
             )}

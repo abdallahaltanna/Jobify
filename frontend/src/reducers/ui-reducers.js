@@ -1,4 +1,8 @@
-import { DISPLAY_ALERT, HIDE_ALERT } from "../constants/uiConstants";
+import {
+  DISPLAY_ALERT,
+  HIDE_ALERT,
+  TOGGLE_SIDEBAR,
+} from "../constants/uiConstants";
 import {
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAILED,
@@ -6,8 +10,8 @@ import {
   LOGIN_USER_FAILED,
 } from "../constants/authConstants";
 
-export const alertReducer = (
-  state = { showAlert: false, alertText: "", alertType: "" },
+export const uiReducer = (
+  state = { showAlert: false, alertText: "", alertType: "", showSidebar: true },
   { type, payload }
 ) => {
   switch (type) {
@@ -52,6 +56,11 @@ export const alertReducer = (
         showAlert: true,
         alertText: payload,
         alertType: "danger",
+      };
+    case TOGGLE_SIDEBAR:
+      return {
+        ...state,
+        showSidebar: !state.showSidebar,
       };
     default:
       return state;

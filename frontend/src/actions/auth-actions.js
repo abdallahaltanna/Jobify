@@ -5,6 +5,7 @@ import {
   LOGIN_USER_PENDING,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAILED,
+  LOGOUT_USER,
 } from "../constants/authConstants";
 import axios from "axios";
 import { clearAlert } from "../actions/ui-actions";
@@ -61,4 +62,9 @@ export const login = (userInfo) => async (dispatch) => {
     });
   }
   dispatch(clearAlert());
+};
+
+export const logout = () => (dispatch) => {
+  dispatch({ type: LOGOUT_USER });
+  removeUserInfoFromLocalStorage();
 };
