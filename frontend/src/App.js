@@ -1,16 +1,25 @@
-import { lazy, Suspense } from 'react'
-import { Routes, Route } from 'react-router-dom'
-import { Loading } from './components'
+import { lazy, Suspense } from "react";
+import { Routes, Route } from "react-router-dom";
+import { Loading } from "./components";
 
-const Landing = lazy(() => import('./pages/landing/Landing.js'))
-const Register = lazy(() => import('./pages/register/Register.js'))
-const Error = lazy(() => import('./pages/404/Error.js'))
+const Landing = lazy(() => import("./pages/landing/Landing.js"));
+const Register = lazy(() => import("./pages/register/Register.js"));
+const Error = lazy(() => import("./pages/404/Error.js"));
+const Dashboard = lazy(() => import("./pages/Dashboard.js"));
 
 const App = () => {
   return (
     <Routes>
       <Route
-        path='/landing'
+        path="/dashboard"
+        element={
+          <Suspense fallback={<Loading />}>
+            <Dashboard />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/landing"
         element={
           <Suspense fallback={<Loading />}>
             <Landing />
@@ -18,7 +27,7 @@ const App = () => {
         }
       />
       <Route
-        path='/register'
+        path="/register"
         element={
           <Suspense fallback={<Loading />}>
             <Register />
@@ -26,7 +35,7 @@ const App = () => {
         }
       />
       <Route
-        path='*'
+        path="*"
         element={
           <Suspense fallback={<Loading />}>
             <Error />
@@ -34,6 +43,6 @@ const App = () => {
         }
       />
     </Routes>
-  )
-}
-export default App
+  );
+};
+export default App;

@@ -2,7 +2,7 @@ import User from "../models/userModel.js";
 import { BadRequestError } from "../errors/index.js";
 import "express-async-errors";
 
-const register = async (req, res) => {
+const register = async (req, res, next) => {
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {

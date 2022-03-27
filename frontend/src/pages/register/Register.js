@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import logo from "../../assets/images/logo.svg";
 import { FormRow, Alert } from "../../components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
-import { displayAlert, clearAlert } from "../../store/slices/ui-slice";
+import { showAlert as displayAlert } from "../../actions/ui-actions";
+import { register } from "../../actions/auth-actions";
+import { useNavigate } from "react-router-dom";
 import Wrapper from "./styles";
 
 const initialState = {
@@ -17,21 +19,33 @@ const initialState = {
 const Register = () => {
   const [values, setValues] = useState(initialState);
   const [showPassword, setShowPassword] = useState(false);
-  const { showAlert } = useSelector((state) => state.ui);
+  const { showAlert } = useSelector((state) => state.alert);
+  const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const submitForm = (e) => {
     e.preventDefault();
-    const { name, email, password } = values;
+    const { name, email, password, isMember } = values;
 
-    if (!name || !email || password) {
+    if (!email || !password || (!isMember && !name)) {
       dispatch(displayAlert());
+      return;
+    }
 
-      setTimeout(() => {
-        dispatch(clearAlert());
-      }, 3000);
+    if (isMember) {
+    } else {
+      dispatch(register({ name, email, password }));
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 3000);
+    }
+  }, [user, navigate]);
 
   return (
     <Wrapper className="full-page">
