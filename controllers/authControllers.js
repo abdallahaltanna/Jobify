@@ -1,5 +1,5 @@
 import User from "../models/userModel.js";
-import { BadRequestError } from "../errors/index.js";
+import { BadRequestError, UnauthenticatedError } from "../errors/index.js";
 import "express-async-errors";
 
 const register = async (req, res, next) => {
@@ -31,8 +31,30 @@ const register = async (req, res, next) => {
   });
 };
 
-const login = (req, res) => {
-  res.send("login");
+const login = async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    throw new BadRequestError("Please provide all values");
+  }
+
+  const user = await User.findOne({ email }).select("+password");
+  if (!user) {
+    throw new UnauthenticatedError("Invalid credentials");
+  }
+
+  const isMatch = await user.comparePassword(password);
+  if (!isMatch) {
+    throw new UnauthenticatedError("Invalid credentials");
+  }
+
+  user.password = undefined;
+  const token = user.createJWT();
+
+  res.status(200).json({
+    user,
+    token,
+    location: user.location,
+  });
 };
 
 const updateUser = (req, res) => {

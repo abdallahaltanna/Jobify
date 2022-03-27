@@ -2,6 +2,8 @@ import { DISPLAY_ALERT, HIDE_ALERT } from "../constants/uiConstants";
 import {
   REGISTER_USER_SUCCESS,
   REGISTER_USER_FAILED,
+  LOGIN_USER_SUCCESS,
+  LOGIN_USER_FAILED,
 } from "../constants/authConstants";
 
 export const alertReducer = (
@@ -31,6 +33,20 @@ export const alertReducer = (
         alertType: "success",
       };
     case REGISTER_USER_FAILED:
+      return {
+        ...state,
+        showAlert: true,
+        alertText: payload,
+        alertType: "danger",
+      };
+    case LOGIN_USER_SUCCESS:
+      return {
+        ...state,
+        showAlert: true,
+        alertText: "Login Successful! Redirecting...",
+        alertType: "success",
+      };
+    case LOGIN_USER_FAILED:
       return {
         ...state,
         showAlert: true,

@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { showAlert as displayAlert } from "../../actions/ui-actions";
-import { register } from "../../actions/auth-actions";
+import { register, login } from "../../actions/auth-actions";
 import { useNavigate } from "react-router-dom";
 import Wrapper from "./styles";
 
@@ -34,6 +34,7 @@ const Register = () => {
     }
 
     if (isMember) {
+      dispatch(login({ email, password }));
     } else {
       dispatch(register({ name, email, password }));
     }
