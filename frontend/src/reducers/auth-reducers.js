@@ -6,6 +6,9 @@ import {
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAILED,
   LOGOUT_USER,
+  UPDATE_PROFILE_PENDING,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_ERROR,
 } from "../constants/authConstants";
 
 const user = localStorage.getItem("user");
@@ -62,6 +65,22 @@ export const authUser = (
         token: null,
         userLocation: "",
         jobLocation: "",
+      };
+    case UPDATE_PROFILE_PENDING:
+      return { ...state, isLoading: true };
+    case UPDATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        user: payload.user,
+        token: payload.token,
+        userLocation: payload.location,
+        jobLocation: payload.location,
+      };
+    case UPDATE_PROFILE_ERROR:
+      return {
+        ...state,
+        isLoading: false,
       };
     default:
       return state;

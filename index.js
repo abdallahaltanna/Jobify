@@ -5,6 +5,7 @@ import notFound from "./middlewares/not-found.js";
 import errorHandler from "./middlewares/error-handler.js";
 import authRoutes from "./routes/authRoutes.js";
 import jobRoutes from "./routes/jobsRoutes.js";
+import auth from "./middlewares/auth.js";
 import "express-async-errors";
 
 const app = express();
@@ -21,7 +22,7 @@ app.get("/api/v1", (req, res) => {
 
 // Routes
 app.use("/api/v1/auth", authRoutes);
-app.use("/api/v1/jobs", jobRoutes);
+app.use("/api/v1/jobs", auth, jobRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

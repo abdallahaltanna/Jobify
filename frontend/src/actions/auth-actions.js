@@ -6,6 +6,9 @@ import {
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAILED,
   LOGOUT_USER,
+  UPDATE_PROFILE_PENDING,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_ERROR,
 } from "../constants/authConstants";
 import axios from "axios";
 import { clearAlert } from "../actions/ui-actions";
@@ -67,4 +70,30 @@ export const login = (userInfo) => async (dispatch) => {
 export const logout = () => (dispatch) => {
   dispatch({ type: LOGOUT_USER });
   removeUserInfoFromLocalStorage();
+};
+
+export const updateUserProfile = (userInfo) => async (dispatch, getState) => {
+  dispatch({ type: UPDATE_PROFILE_PENDING });
+  try {
+    const {
+      auth: { token },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.patch(
+      `${process.env.REACT_APP_AUTH_API}/updateUser`,
+      userInfo,
+      config
+    );
+    dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data });
+    setUserInfoToLocalStorage(data);
+  } catch (error) {
+    dispatch({ type: UPDATE_PROFILE_ERROR, payload: error.response.data.msg });
+  }
+  dispatch(clearAlert());
 };

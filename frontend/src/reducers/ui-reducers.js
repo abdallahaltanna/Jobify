@@ -8,6 +8,8 @@ import {
   REGISTER_USER_FAILED,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAILED,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_ERROR,
 } from "../constants/authConstants";
 
 export const uiReducer = (
@@ -61,6 +63,20 @@ export const uiReducer = (
       return {
         ...state,
         showSidebar: !state.showSidebar,
+      };
+    case UPDATE_PROFILE_SUCCESS:
+      return {
+        ...state,
+        showAlert: true,
+        alertText: "User Profile Updated!",
+        alertType: "success",
+      };
+    case UPDATE_PROFILE_ERROR:
+      return {
+        ...state,
+        showAlert: true,
+        alertText: payload,
+        alertType: "danger",
       };
     default:
       return state;
