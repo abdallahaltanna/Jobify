@@ -1,6 +1,11 @@
-import Wrapper from "./styles";
+import { SearchContainer, JobsContainer } from "../../../components";
 
 const AllJobs = () => {
-  return <div>AllJobs</div>;
+  return (
+    <>
+      <SearchContainer />
+      <JobsContainer />
+    </>
+  );
 };
 export default AllJobs;

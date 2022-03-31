@@ -21,7 +21,6 @@ export const authUser = (
     user: user ? JSON.parse(user) : null,
     token: token,
     userLocation: location || "",
-    jobLocation: location || "",
   },
   { type, payload }
 ) => {
@@ -35,7 +34,6 @@ export const authUser = (
         user: payload.user,
         token: payload.token,
         userLocation: payload.location,
-        jobLocation: payload.location,
       };
     case REGISTER_USER_FAILED:
       return {
@@ -51,7 +49,6 @@ export const authUser = (
         user: payload.user,
         token: payload.token,
         userLocation: payload.location,
-        jobLocation: payload.location,
       };
     case LOGIN_USER_FAILED:
       return {
@@ -64,7 +61,6 @@ export const authUser = (
         user: null,
         token: null,
         userLocation: "",
-        jobLocation: "",
       };
     case UPDATE_PROFILE_PENDING:
       return { ...state, isLoading: true };
@@ -75,7 +71,6 @@ export const authUser = (
         user: payload.user,
         token: payload.token,
         userLocation: payload.location,
-        jobLocation: payload.location,
       };
     case UPDATE_PROFILE_ERROR:
       return {

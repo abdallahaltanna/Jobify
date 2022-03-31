@@ -11,6 +11,10 @@ import {
   UPDATE_PROFILE_SUCCESS,
   UPDATE_PROFILE_ERROR,
 } from "../constants/authConstants";
+import {
+  CREATE_JOB_SUCCESS,
+  CREATE_JOB_ERROR,
+} from "../constants/jobConstants";
 
 export const uiReducer = (
   state = { showAlert: false, alertText: "", alertType: "", showSidebar: true },
@@ -72,6 +76,20 @@ export const uiReducer = (
         alertType: "success",
       };
     case UPDATE_PROFILE_ERROR:
+      return {
+        ...state,
+        showAlert: true,
+        alertText: payload,
+        alertType: "danger",
+      };
+    case CREATE_JOB_SUCCESS:
+      return {
+        ...state,
+        showAlert: true,
+        alertText: "New Job Created!",
+        alertType: "success",
+      };
+    case CREATE_JOB_ERROR:
       return {
         ...state,
         showAlert: true,
