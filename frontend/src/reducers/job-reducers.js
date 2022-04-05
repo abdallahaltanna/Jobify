@@ -6,6 +6,11 @@ import {
   CREATE_JOB_ERROR,
   GET_JOBS_PENDING,
   GET_JOBS_SUCCESS,
+  SET_EDIT_JOB,
+  REMOVE_JOB_REQUEST,
+  EDIT_JOB_REQUEST,
+  EDIT_JOB_SUCCESS,
+  EDIT_JOB_ERROR,
 } from "../constants/jobConstants";
 
 const location = localStorage.getItem("location");
@@ -62,8 +67,30 @@ export const jobReducer = (state = initialState, { type, payload }) => {
     case GET_JOBS_SUCCESS:
       return {
         ...state,
+        isLoading: false,
         jobs: payload.jobs,
       };
+    case SET_EDIT_JOB:
+      const job = state.jobs.find((job) => job._id === payload);
+      const { _id, position, company, status, jobType, jobLocation } = job;
+      return {
+        ...state,
+        isEditing: true,
+        editJobId: _id,
+        position,
+        company,
+        status,
+        jobType,
+        jobLocation,
+      };
+    case REMOVE_JOB_REQUEST:
+      return { ...state, isLoading: true };
+    case EDIT_JOB_REQUEST:
+      return { ...state, isLoading: true };
+    case EDIT_JOB_SUCCESS:
+      return { ...state, isLoading: false };
+    case EDIT_JOB_ERROR:
+      return { ...state, isLoading: false };
     default:
       return state;
   }

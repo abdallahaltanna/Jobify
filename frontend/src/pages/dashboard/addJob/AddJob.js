@@ -4,6 +4,7 @@ import {
   handleChanges,
   clearValues,
   createJob,
+  editJob,
 } from "../../../actions/job-actions";
 import { showAlert as displayAlert } from "../../../actions/ui-actions";
 import Wrapper from "./styles";
@@ -13,7 +14,6 @@ const AddJob = () => {
   const {
     isLoading,
     isEditing,
-    editJobId,
     jobLocation,
     position,
     company,
@@ -38,6 +38,7 @@ const AddJob = () => {
       return;
     }
     if (isEditing) {
+      dispatch(editJob());
       return;
     }
     dispatch(createJob());

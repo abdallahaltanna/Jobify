@@ -14,6 +14,8 @@ import {
 import {
   CREATE_JOB_SUCCESS,
   CREATE_JOB_ERROR,
+  EDIT_JOB_SUCCESS,
+  EDIT_JOB_ERROR,
 } from "../constants/jobConstants";
 
 export const uiReducer = (
@@ -90,6 +92,20 @@ export const uiReducer = (
         alertType: "success",
       };
     case CREATE_JOB_ERROR:
+      return {
+        ...state,
+        showAlert: true,
+        alertText: payload,
+        alertType: "danger",
+      };
+    case EDIT_JOB_SUCCESS:
+      return {
+        ...state,
+        showAlert: true,
+        alertText: "Job Updated!",
+        alertType: "success",
+      };
+    case EDIT_JOB_ERROR:
       return {
         ...state,
         showAlert: true,

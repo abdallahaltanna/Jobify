@@ -7,6 +7,11 @@ import {
   CREATE_JOB_ERROR,
   GET_JOBS_PENDING,
   GET_JOBS_SUCCESS,
+  SET_EDIT_JOB,
+  REMOVE_JOB_REQUEST,
+  EDIT_JOB_REQUEST,
+  EDIT_JOB_SUCCESS,
+  EDIT_JOB_ERROR,
 } from "../constants/jobConstants";
 import { clearAlert } from "./ui-actions";
 import { logout } from "./auth-actions";
@@ -67,4 +72,62 @@ export const getJobs = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch(logout());
   }
+};
+
+export const setEditJob = (id) => (dispatch) => {
+  dispatch({ type: SET_EDIT_JOB, payload: id });
+};
+
+export const removeJob = (id) => async (dispatch, getState) => {
+  dispatch({ type: REMOVE_JOB_REQUEST });
+  const {
+    auth: { token },
+  } = getState();
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  try {
+    await axios.delete(`${process.env.REACT_APP_JOB_API}/${id}`, config);
+    dispatch(getJobs());
+  } catch (error) {
+    dispatch(logout());
+  }
+};
+
+export const editJob = () => async (dispatch, getState) => {
+  dispatch({ type: EDIT_JOB_REQUEST });
+  const {
+    job: { editJobId, position, company, jobLocation, jobType, status },
+    auth: { token },
+  } = getState();
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  try {
+    await axios.patch(
+      `${process.env.REACT_APP_JOB_API}/${editJobId}`,
+      {
+        position,
+        company,
+        jobLocation,
+        jobType,
+        status,
+      },
+      config
+    );
+    dispatch({ type: EDIT_JOB_SUCCESS });
+    dispatch(clearValues());
+  } catch (error) {
+    if (error.response.status === 401) return;
+    dispatch({ type: EDIT_JOB_ERROR, payload: error.response.data.msg });
+  }
+  dispatch(clearAlert());
 };
