@@ -19,3 +19,7 @@ export const EDIT_JOB_ERROR = "EDIT_JOB_ERROR";
 
 export const GET_STATS_PENDING = "GET_STATS_PENDING";
 export const GET_STATS_SUCCESS = "GET_STATS_SUCCESS";
+
+export const CLEAR_FILTERS = "CLEAR_FILTERS";
+
+export const CHANGE_PAGE = "CHANGE_PAGE";

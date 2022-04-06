@@ -13,6 +13,8 @@ import {
   EDIT_JOB_ERROR,
   GET_STATS_PENDING,
   GET_STATS_SUCCESS,
+  CLEAR_FILTERS,
+  CHANGE_PAGE,
 } from "../constants/jobConstants";
 
 const location = localStorage.getItem("location");
@@ -34,6 +36,11 @@ const initialState = {
   page: 1,
   stats: {},
   monthlyApplications: [],
+  search: "",
+  searchStatus: "all",
+  searchType: "all",
+  sort: "latest",
+  sortOptions: ["latest", "oldest", "a-z", "z-a"],
 };
 
 export const jobReducer = (state = initialState, { type, payload }) => {
@@ -76,6 +83,8 @@ export const jobReducer = (state = initialState, { type, payload }) => {
         ...state,
         isLoading: false,
         jobs: payload.jobs,
+        totalJobs: payload.totalJobs,
+        numOfPages: payload.numOfPages,
       };
     case SET_EDIT_JOB:
       const job = state.jobs.find((job) => job._id === payload);
@@ -109,6 +118,19 @@ export const jobReducer = (state = initialState, { type, payload }) => {
         isLoading: false,
         stats: payload.defaultStats,
         monthlyApplications: payload.monthlyApplications,
+      };
+    case CLEAR_FILTERS:
+      return {
+        ...state,
+        search: "",
+        searchStatus: "all",
+        searchType: "all",
+        sort: "latest",
+      };
+    case CHANGE_PAGE:
+      return {
+        ...state,
+        page: payload,
       };
     default:
       return state;

@@ -4,9 +4,7 @@ import { showStats } from "../../../actions/job-actions";
 import { Loading, StatsContainer, ChartsContainer } from "../../../components";
 
 const Stats = () => {
-  const { isLoading, stats, monthlyApplication } = useSelector(
-    (state) => state.job
-  );
+  const { isLoading, stats } = useSelector((state) => state.job);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -14,7 +12,7 @@ const Stats = () => {
   }, [dispatch]);
 
   if (isLoading) {
-    return <Loading />;
+    return <Loading center />;
   }
 
   return (

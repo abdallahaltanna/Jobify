@@ -3,15 +3,25 @@ import { useSelector, useDispatch } from "react-redux";
 import { getJobs } from "../../actions/job-actions";
 import { Job } from "../";
 import Wrapper from "./styles";
-import { Loading } from "../";
+import { Loading, Pagination } from "../";
 
 const JobsContainer = () => {
   const dispatch = useDispatch();
-  const { jobs, isLoading } = useSelector((state) => state.job);
+  const {
+    jobs,
+    isLoading,
+    search,
+    searchStatus,
+    searchType,
+    sort,
+    numOfPages,
+    totalJobs,
+    page,
+  } = useSelector((state) => state.job);
 
   useEffect(() => {
     dispatch(getJobs());
-  }, [dispatch]);
+  }, [dispatch, search, searchStatus, searchType, sort, page]);
 
   if (isLoading) {
     return <Loading center />;
@@ -27,12 +37,15 @@ const JobsContainer = () => {
 
   return (
     <Wrapper>
-      <h5>jobs</h5>
+      <h5>
+        {totalJobs} job{jobs.length > 1 && "s"}
+      </h5>
       <div className="jobs">
         {jobs.map((job, index) => (
           <Job key={index} job={job} />
         ))}
       </div>
+      {numOfPages > 1 && <Pagination />}
     </Wrapper>
   );
 };

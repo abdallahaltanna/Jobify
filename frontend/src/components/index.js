@@ -15,6 +15,7 @@ import ChartsContainer from "./chartsContainer/ChartsContainer";
 import StatsItem from "./statsItem/StatsItem";
 import BarChart from "./BarChart";
 import AreaChart from "./AreaChart";
+import Pagination from "./pagination/Pagination";
 
 export {
   Loading,
@@ -34,4 +35,5 @@ export {
   StatsItem,
   BarChart,
   AreaChart,
+  Pagination,
 };

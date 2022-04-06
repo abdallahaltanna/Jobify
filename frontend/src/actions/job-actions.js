@@ -14,6 +14,8 @@ import {
   EDIT_JOB_ERROR,
   GET_STATS_PENDING,
   GET_STATS_SUCCESS,
+  CLEAR_FILTERS,
+  CHANGE_PAGE,
 } from "../constants/jobConstants";
 import { clearAlert } from "./ui-actions";
 import { logout } from "./auth-actions";
@@ -60,7 +62,14 @@ export const getJobs = () => async (dispatch, getState) => {
   dispatch({ type: GET_JOBS_PENDING });
   const {
     auth: { token },
+    job: { search, searchStatus, searchType, sort, page },
   } = getState();
+
+  let queries = `page=${page}&status=${searchStatus}&jobType=${searchType}&sort=${sort}`;
+
+  if (search) {
+    queries = `${queries}&search=${search}`;
+  }
 
   const config = {
     headers: {
@@ -69,7 +78,10 @@ export const getJobs = () => async (dispatch, getState) => {
   };
 
   try {
-    const { data } = await axios.get(process.env.REACT_APP_JOB_API, config);
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_JOB_API}?${queries}`,
+      config
+    );
     dispatch({ type: GET_JOBS_SUCCESS, payload: data });
   } catch (error) {
     dispatch(logout());
@@ -156,4 +168,12 @@ export const showStats = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch(logout());
   }
+};
+
+export const clearFilters = () => (dispatch) => {
+  dispatch({ type: CLEAR_FILTERS });
+};
+
+export const changePage = (page) => (dispatch) => {
+  dispatch({ type: CHANGE_PAGE, payload: page });
 };
