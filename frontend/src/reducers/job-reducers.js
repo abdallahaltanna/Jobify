@@ -11,6 +11,8 @@ import {
   EDIT_JOB_REQUEST,
   EDIT_JOB_SUCCESS,
   EDIT_JOB_ERROR,
+  GET_STATS_PENDING,
+  GET_STATS_SUCCESS,
 } from "../constants/jobConstants";
 
 const location = localStorage.getItem("location");
@@ -27,6 +29,11 @@ const initialState = {
   jobStatusOptions: ["interview", "declined", "pending"],
   status: "pending",
   jobs: [],
+  totalJobs: 0,
+  numOfPages: 1,
+  page: 1,
+  stats: {},
+  monthlyApplications: [],
 };
 
 export const jobReducer = (state = initialState, { type, payload }) => {
@@ -91,6 +98,18 @@ export const jobReducer = (state = initialState, { type, payload }) => {
       return { ...state, isLoading: false };
     case EDIT_JOB_ERROR:
       return { ...state, isLoading: false };
+    case GET_STATS_PENDING:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case GET_STATS_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        stats: payload.defaultStats,
+        monthlyApplications: payload.monthlyApplications,
+      };
     default:
       return state;
   }

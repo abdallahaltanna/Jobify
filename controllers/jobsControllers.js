@@ -1,10 +1,34 @@
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 import Job from "../models/jobModel.js";
 import checkPermissions from "../utils/checkPermissions.js";
+import mongoose from "mongoose";
 
 const getAllJobs = async (req, res) => {
-  const jobs = await Job.find({});
-  res.status(200).json({ jobs });
+  const jobs = await Job.find({ createdBy: req.user.userId });
+  res.status(200).json({ jobs, totalJobs: jobs.length, numOfPages: 1 });
+};
+
+const showStats = async (req, res) => {
+  let stats = await Job.aggregate([
+    { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+    { $group: { _id: "$status", count: { $sum: 1 } } },
+  ]);
+
+  stats = stats.reduce((acc, curr) => {
+    const { _id: title, count } = curr;
+    acc[title] = count;
+    return acc;
+  }, {});
+
+  const defaultStats = {
+    pending: stats.pending || 0,
+    interview: stats.interview || 0,
+    declined: stats.declined || 0,
+  };
+
+  let monthlyApplication = [];
+
+  res.status(200).json({ defaultStats, monthlyApplication });
 };
 
 const createJob = async (req, res) => {
@@ -51,10 +75,6 @@ const updateJob = async (req, res) => {
   });
 
   res.status(200).json({ updatedJob });
-};
-
-const showStats = (req, res) => {
-  res.send("showStats");
 };
 
 export { getAllJobs, createJob, deleteJob, updateJob, showStats };

@@ -1,21 +1,21 @@
 import dotenv from "dotenv";
-dotenv.config();
-
 import connectDB from "./db/mongoose.js";
 import Job from "./models/jobModel.js";
-import { readFile } from "fs/promises";
+import fs from "fs/promises";
 
-const start = async () => {
+dotenv.config();
+
+const populateData = async () => {
   try {
-    await connectDB(process.env.DATABASE_URL);
+    await connectDB(process.env.MONGO_URL);
     await Job.deleteMany();
 
-    const jsonJobs = JSON.parse(
-      await readFile(new URL("./MOCK_DATA.json", import.meta.url))
+    const jobsData = JSON.parse(
+      await fs.readFile(new URL("./MOCK_DATA.json", import.meta.url))
     );
 
-    await Job.create(jsonJobs);
-    console.log("success");
+    await Job.create(jobsData);
+    console.log("Success");
     process.exit(0);
   } catch (error) {
     console.log(error);
@@ -23,4 +23,4 @@ const start = async () => {
   }
 };
 
-start();
+populateData();

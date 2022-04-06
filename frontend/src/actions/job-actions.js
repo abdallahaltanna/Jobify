@@ -12,6 +12,8 @@ import {
   EDIT_JOB_REQUEST,
   EDIT_JOB_SUCCESS,
   EDIT_JOB_ERROR,
+  GET_STATS_PENDING,
+  GET_STATS_SUCCESS,
 } from "../constants/jobConstants";
 import { clearAlert } from "./ui-actions";
 import { logout } from "./auth-actions";
@@ -130,4 +132,28 @@ export const editJob = () => async (dispatch, getState) => {
     dispatch({ type: EDIT_JOB_ERROR, payload: error.response.data.msg });
   }
   dispatch(clearAlert());
+};
+
+export const showStats = () => async (dispatch, getState) => {
+  dispatch({ type: GET_STATS_PENDING });
+
+  const {
+    auth: { token },
+  } = getState();
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  try {
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_JOB_API}/stats`,
+      config
+    );
+    dispatch({ type: GET_STATS_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch(logout());
+  }
 };

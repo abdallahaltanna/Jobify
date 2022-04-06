@@ -10,6 +10,9 @@ import SearchContainer from "./searchContainer/SearchContainer";
 import JobsContainer from "./jobsContainer/JobsContainer";
 import Job from "./job/Job";
 import JobInfo from "./jobInfo/JobInfo";
+import StatsContainer from "./statsContainer/StatsContainer";
+import ChartsContainer from "./chartsContainer/ChartsContainer";
+import StatsItem from "./statsItem/StatsItem";
 
 export {
   Loading,
@@ -24,4 +27,7 @@ export {
   JobsContainer,
   Job,
   JobInfo,
+  StatsContainer,
+  ChartsContainer,
+  StatsItem,
 };
