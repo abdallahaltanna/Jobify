@@ -2,6 +2,7 @@ import { BadRequestError, NotFoundError } from "../errors/index.js";
 import Job from "../models/jobModel.js";
 import checkPermissions from "../utils/checkPermissions.js";
 import mongoose from "mongoose";
+import moment from "moment";
 
 const getAllJobs = async (req, res) => {
   const jobs = await Job.find({ createdBy: req.user.userId });
@@ -26,9 +27,33 @@ const showStats = async (req, res) => {
     declined: stats.declined || 0,
   };
 
-  let monthlyApplication = [];
+  let monthlyApplications = await Job.aggregate([
+    { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+    {
+      $group: {
+        _id: { year: { $year: "$createdAt" }, month: { $month: "$createdAt" } },
+        count: { $sum: 1 },
+      },
+    },
+    { $sort: { "_id.year": -1, "_id.month": -1 } },
+    { $limit: 6 },
+  ]);
 
-  res.status(200).json({ defaultStats, monthlyApplication });
+  monthlyApplications = monthlyApplications
+    .map((item) => {
+      const {
+        _id: { year, month },
+        count,
+      } = item;
+      const date = moment()
+        .month(month - 1)
+        .year(year)
+        .format("MMM Y");
+      return { date, count };
+    })
+    .reverse();
+
+  res.status(200).json({ defaultStats, monthlyApplications });
 };
 
 const createJob = async (req, res) => {

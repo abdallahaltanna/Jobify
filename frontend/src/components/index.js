@@ -13,6 +13,8 @@ import JobInfo from "./jobInfo/JobInfo";
 import StatsContainer from "./statsContainer/StatsContainer";
 import ChartsContainer from "./chartsContainer/ChartsContainer";
 import StatsItem from "./statsItem/StatsItem";
+import BarChart from "./BarChart";
+import AreaChart from "./AreaChart";
 
 export {
   Loading,
@@ -30,4 +32,6 @@ export {
   StatsContainer,
   ChartsContainer,
   StatsItem,
+  BarChart,
+  AreaChart,
 };
